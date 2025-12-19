@@ -885,7 +885,33 @@ refreshWaiting();
         }
       }
     };
-        // 將歷史訂單項目加入購物車
+    
+    function calculateTopItems() {
+      const itemCounts = {};
+
+      // 統計每個品項出現的次數
+      orders.forEach(order => {
+          const items = JSON.parse(order.parsed_items || '[]');
+          items.forEach(item => {
+              const name = item.name;
+              itemCounts[name] = (itemCounts[name] || 0) + (item.quantity || 1);
+          });
+      });
+
+      // 排序找出前五名
+      const top5 = Object.entries(itemCounts)
+          .sort((a, b) => b[1] - a[1]) // 由大到小排
+          .slice(0, 5)
+          .map(entry => entry[0]);
+
+      // 顯示結果（之後你可以把這個 top5 傳給前端點餐網頁）
+      alert(`🔥 本店人氣 Top 5：\n1. ${top5[0] || '-'}\n2. ${top5[1] || '-'}\n3. ${top5[2] || '-'}\n4. ${top5[3] || '-'}\n5. ${top5[4] || '-'}\n\n系統已自動同步至點餐頁面！`);
+      
+      // 儲存到 localStorage 讓「外帶.html」可以讀取
+      localStorage.setItem('popular_items', JSON.stringify(top5));
+  }
+
+    // 將歷史訂單項目加入購物車
     function addTakeoutItemToCart(item) {
       let customOptions = {};
       if (item.custom_options) {
