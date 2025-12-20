@@ -630,8 +630,8 @@ refreshWaiting();
       updateAuthUI();
     }
 
-    function showOrderModal(orderId, total, items = []) {
-      document.getElementById("orderNumber").textContent = `訂單編號：#${orderId}`;
+    function showOrderModal(orderNo, total, items = []) {
+      document.getElementById("orderNumber").textContent = `訂單編號：#${orderNo}`;
       document.getElementById("pickupTime").textContent = `預估完成時間：約 15~20 分鐘`;
 
       let detailsHtml = "<ul>";
